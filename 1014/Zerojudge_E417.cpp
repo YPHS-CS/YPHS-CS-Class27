@@ -10,8 +10,6 @@
 #include <cmath>
 using namespace std;
 
-#define all(x) (x).begin(), (x).end()
-
 
 int main(){
     int N;
