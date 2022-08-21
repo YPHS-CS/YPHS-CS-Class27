@@ -18,7 +18,7 @@ uint64_t fib(int x) {
 int main() {
     int N;
     cin >> N;
-    assert(N < );
+    assert(N < 93);
     cout << fib(N) << '\n';
     return 0;
 }
