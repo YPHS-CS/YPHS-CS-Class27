@@ -3,15 +3,18 @@
 #include <cmath>
 using namespace std;
 
-const int INF = 0x3f3f3f3f;
-vector<vector<int> > Table(16, vector<int>(int(1e5)));
-int query(int A, int B) {
-    if(B<A)
-        return -INF;
-    if(A==B)
-        return Table[0][A];
-    int t = log2(B - A + 1);
-    return max(Table[t][A], Table[t][B - (1 << t) + 1]);
+
+const int INF = 1e18;
+vector<int, vector<uint64_t> > build(uint64_t V) {
+    int t = log2(V.size());
+    vector<int, vector<uint64_t> > RET(t, vector<uint64_t>(V.size()));
+    RET[0] = V;
+    for(int i=1;i<=t);++i) {
+        for(int left=0;left+(1<<i)<=N;++left) {
+            Table[i][left] = max(Table[i-1][left], Table[i-1][left+(1<<(i-1))]);
+        }
+    }
+    return RET;
 }
 int main() {
     int N, M;
@@ -19,15 +22,23 @@ int main() {
     vector<int> H(N), D(N);
     for(int &i: D) cin >> i;
     for(int &i: H) cin >> i;
+    int K = 2*N;
 
-    int lg = log2(N);
-    for(int i=0;i<N;++i)
-        Table[0][i] = 2*(H[i]+H[(i+1)%N]) + D[i];
-    for(int i=1;i<=1;++i) {
-        for(int left=0;left+(1<<i)<=N;++left) {
-            Table[i][left] = max(Table[i-1][left], Table[i-1][left+(1<<(i-1))]);
-        }
+    vector<uint64_t> preSum(K);
+    for(int i=0;i<K;++i) {
+        preSum[i] = D[i%N];
+        if(i)
+            preSum[i] += preSum[i-1];
     }
+
+    vector<uint64_t> vLeft(K), vRight(K);
+
+    for(int i=0;i<K;++i) {
+        vLeft[i] = -preSum[i] + H[i%N];
+        vRight[i] = preSum[i] + H[i%N];
+    }
+
+
     for(int i=0;i<M;++i) {
         int A, B;
         int ans;
