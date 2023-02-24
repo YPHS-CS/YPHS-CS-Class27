@@ -4,17 +4,43 @@
 using namespace std;
 
 
-const int INF = 1e18;
-vector<int, vector<uint64_t> > build(uint64_t V) {
-    int t = log2(V.size());
-    vector<int, vector<uint64_t> > RET(t, vector<uint64_t>(V.size()));
-    RET[0] = V;
-    for(int i=1;i<=t);++i) {
-        for(int left=0;left+(1<<i)<=N;++left) {
-            Table[i][left] = max(Table[i-1][left], Table[i-1][left+(1<<(i-1))]);
+const int64_t INF = 1e18;
+const int MAX_N = 2e5+2;
+struct E {
+    int64_t mi;
+    int64_t mx;
+};
+E Table[63][MAX_N];
+int64_t s[2][MAX_N];
+int K;
+int calc(int a, int b, int c) {
+    return s[c][a] > s[c][b] ? a : b;
+}
+void build() {
+    for(int i=0;i<K;++i)
+        Table[0][i].mi = Table[0][i].mx = i;
+    int t = log2(K);
+    for(int i=1;i<=t;++i) {
+        for(int j=0;j+(1<<i)<=K;++j) {
+            Table[i][j].mi = calc(Table[i - 1][j].mi, Table[i - 1][j + (1 << (i - 1))].mi, 0);
+            Table[i][j].mx = calc(Table[i - 1][j].mx, Table[i - 1][j + (1 << (i - 1))].mx, 1);
         }
     }
-    return RET;
+}
+int getMax(int l, int r) {
+    int t = log2(r-l+1);
+    return calc(Table[t][l].mx, Table[t][r-t+1].mx, 1);
+}
+int getMin(int l, int r) {
+    int t = log2(r-l+1);
+    return calc(Table[t][l].mi, Table[t][r-t+1].mi, 0);
+}
+int solve(int l, int r) {
+    cout << "solve" << l << '\t' << r << '\n';
+    int mip = getMin(l, r);
+    int mxp = getMax(l, r);
+    cout << "\t" << mxp << '\n';
+    return s[1][mxp] + s[0][mip];
 }
 int main() {
     int N, M;
@@ -22,32 +48,27 @@ int main() {
     vector<int> H(N), D(N);
     for(int &i: D) cin >> i;
     for(int &i: H) cin >> i;
-    int K = 2*N;
 
-    vector<uint64_t> preSum(K);
+    K = 2*N;
+    vector<int64_t> preSum(K);
     for(int i=0;i<K;++i) {
         preSum[i] = D[i%N];
         if(i)
             preSum[i] += preSum[i-1];
     }
 
-    vector<uint64_t> vLeft(K), vRight(K);
-
     for(int i=0;i<K;++i) {
-        vLeft[i] = -preSum[i] + H[i%N];
-        vRight[i] = preSum[i] + H[i%N];
+        s[0][i] = -preSum[i] + H[i%N];
+        s[1][i] = preSum[i] + H[i%N];
     }
-
-
-    for(int i=0;i<M;++i) {
-        int A, B;
-        int ans;
-        cin >> A >> B;
-        A--, B--;
-        if(A <= B) {
-            cout << max(query(0, A - 2), query(B+1, N-1-(A==0))) << '\n';
-        } else {
-            cout << query(B, A-2) << '\n';
+    build();
+    while(M--) {
+        int l, r;
+        cin >> l >> r;
+        l--, r--;
+        if(l <= r) {
+            
+            cout << solve(r+1, l-1+N) << '\n';
         }
     }
     return 0;
