@@ -12,8 +12,9 @@ function generateReadme(path, level, count) {
     if (stats.isDirectory()) {
       if(!file.startsWith('.')) {
         // 如果是資料夾，遞歸處理
-        output += indent + '- ' + file + '\n';
+        output += indent + '- ' + file + '\t';
         const result = generateReadme(path + '/' + file, level + 1, count);
+        output += `【${result.count}】\n`;
         output += result.output;
         count = result.count;
       }
