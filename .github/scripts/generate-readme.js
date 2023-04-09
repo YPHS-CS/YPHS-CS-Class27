@@ -1,27 +1,27 @@
 const fs = require('fs');
 
 // 遞歸函數遍歷目錄結構，輸出到README.md中
-function generateReadme(path, level) {
+function generateReadme(path, level, count) {
   const files = fs.readdirSync(path);
   let output = '';
   level = level || 0;
   const indent = '  '.repeat(level); // 每一層的縮進
 
-  let count = 0;
   files.forEach(function(file) {
     const stats = fs.statSync(path + '/' + file);
     if (stats.isDirectory()) {
       if(file.startsWith('.')) {
-        return;
+        return; // 繼續下一個迴圈
       }
       // 如果是資料夾，遞歸處理
-      const result = generateReadme(path + '/' + file, level + 1);
-      output += indent + `- ${file} (${result.count} files)\n`;
+      const result = generateReadme(path + '/' + file, level + 1, count);
+      output += indent + '- ' + file + ' (' + result.count + ')\n';
+      output += result.output;
       count += result.count;
     } else {
       // 如果是檔案，輸出檔名
-      output += indent + '- ' + file + '\n';
       if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
+        output += indent + '  - ' + file + '\n';
         count++;
       }
     }
@@ -29,6 +29,7 @@ function generateReadme(path, level) {
 
   return { output: output, count: count };
 }
+
 
 // 生成程式碼區塊
 const result = generateReadme('./', 0);
