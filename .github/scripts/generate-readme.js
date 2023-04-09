@@ -23,7 +23,7 @@ function generateReadme(path, level) {
       // 如果是檔案，輸出檔名
       if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
         count++;
-        output += indent + '  - `' + file + '`\n';
+        output += indent + '  - ' + file + '\n';
       }
     }
   });
