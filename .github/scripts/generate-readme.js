@@ -1,34 +1,46 @@
 const fs = require('fs');
 
 // 遞歸函數遍歷目錄結構，輸出到README.md中
-function generateReadme(path, level, count) {
+function generateReadme(path, level, count = 0) {
   const files = fs.readdirSync(path);
   let output = '';
   level = level || 0;
-  const indent = '  '.repeat(level); // 每一層的縮進
+  const indent = '  '.repeat(level);
 
   files.forEach(function(file) {
     const stats = fs.statSync(path + '/' + file);
     if (stats.isDirectory()) {
       if(file.startsWith('.')) {
-        return; // 繼續下一個迴圈
+        return;
       }
-      // 如果是資料夾，遞歸處理
-      const result = generateReadme(path + '/' + file, level + 1, count);
-      output += indent + '- ' + file + ' (' + result.count + ')\n';
-      output += result.output;
-      count += result.count;
-    } else {
-      // 如果是檔案，輸出檔名
-      if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
-        output += indent + '  - ' + file + '\n';
-        count++;
-      }
+      const result = generateReadme(path + '/' + file, level + 1);
+      const numCppFiles = result.count;
+      count += numCppFiles;
+      const countStr = numCppFiles ? ` (${numCppFiles} files)` : '';
+      output += `${indent}- ${file}${countStr}\n${result.output}`;
+    } else if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
+      count++;
+      output += `${indent}- ${file}\n`;
     }
   });
 
   return { output: output, count: count };
 }
+
+const result = generateReadme('./', 0);
+const readmeContent = `
+# Howard-OJ
+
+###### 專門紀錄我的程式資料夾。
+
+\`總共完成了 ${result.count} 個題目。\`
+
+\`\`\` 
+${result.output}\`\`\`
+`;
+
+fs.writeFileSync('README.md', readmeContent);
+
 
 
 // 生成程式碼區塊
