@@ -20,6 +20,7 @@ function generateReadme(path, level) {
       count += result.count;
     } else {
       // 如果是檔案，輸出檔名
+      output += indent + '- ' + file + '\n';
       if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
         count++;
       }
