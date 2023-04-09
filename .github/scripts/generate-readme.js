@@ -31,9 +31,9 @@ function generateReadme(path, level, count) {
 // 生成程式碼區塊
 const result = generateReadme('./', 0, 0);
 const readmeContent = `
-# Howard-OJ
+# 延平資訊研究社第27屆
 
-###### 專門紀錄我的程式資料夾。
+###### 紀錄上課資料
 
 \`總共完成了 ${result.count} 個題目。\`
 
