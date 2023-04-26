@@ -4,10 +4,10 @@ const fs = require('fs');
 function generateReadme(path, level) {
   const files = fs.readdirSync(path);
   let output = '';
+  let count = 0;
   level = level || 0;
   const indent = '  '.repeat(level); // 每一層的縮進
 
-  let count = 0;
   files.forEach(function(file) {
     const stats = fs.statSync(path + '/' + file);
     if (stats.isDirectory()) {
@@ -16,13 +16,14 @@ function generateReadme(path, level) {
       }
       // 如果是資料夾，遞歸處理
       const result = generateReadme(path + '/' + file, level + 1);
-      output += indent + `- ${file} (${result.count} files)\n`;
-      count += result.count;
+      const folderCount = result.count;
+      count += folderCount;
+      output += indent + `- ${file} (${folderCount} files)\n${result.output}`;
     } else {
       // 如果是檔案，輸出檔名
-      output += indent + '- ' + file + '\n';
       if (file.endsWith('.cpp') || file.endsWith('.py') || file.endsWith('.c')) {
         count++;
+        output += indent + '  - ' + file + '\n';
       }
     }
   });
