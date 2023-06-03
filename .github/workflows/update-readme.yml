@@ -31,4 +31,6 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          repository: YPHS-CS/yphs27th_ed
           force: true
