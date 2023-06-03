@@ -3,7 +3,10 @@
 
 ###### 專門紀錄我的程式資料夾。
 
-`總共完成了 46 個題目。`
+<details><summary>架構圖</summary>
+<p>
+
+`總共完成了 47 個題目。`
 
 ``` 
 - 2022-09-30 (4 files)
@@ -68,4 +71,9 @@
     - by_uva_11549.cpp
 - 2023-05-19 (1 files)
     - A_CODEFORCES_300C.cpp
+  - ttt.cpp
 ```
+
+</p>
+</details>
+
