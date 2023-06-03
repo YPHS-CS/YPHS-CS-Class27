@@ -38,10 +38,17 @@ const readmeContent = `
 
 ###### 專門紀錄我的程式資料夾。
 
+<details><summary>架構圖</summary>
+<p>
+
 \`總共完成了 ${result.count} 個題目。\`
 
 \`\`\` 
 ${result.output}\`\`\`
+
+</p>
+</details>
+
 `;
 
 // 輸出目錄結構到README.md中
