@@ -1,14 +1,14 @@
 
-# YPHS-IRCS-Class27
+# YPHS-CS-Class27
 這個倉庫是關於台北市私立延平高級中學第27屆資訊研究社社課教學內容的資料庫。我們收集和整理了社課期間所學的各種資料、課程講義、示例代碼和項目案例，旨在為社員提供學習資源和參考資料。
 
 <details><summary>架構圖</summary>
 <p>
 
-`總共完成了 46 個題目。`
+`總共完成了 47 個題目。`
 
 ``` 
-- Advanced Class (46 files)
+- Advanced Class (47 files)
   - 2022-09-30 (4 files)
       - B966（吳浩瑋）.cpp
       - B967（吳浩瑋）.cpp
@@ -71,6 +71,8 @@
       - by_uva_11549.cpp
   - 2023-05-19 (1 files)
       - A_CODEFORCES_300C.cpp
+  - 2023-06-09 (1 files)
+      - by_zj_c571.cpp
 - Basic Class (0 files)
 ```
 
